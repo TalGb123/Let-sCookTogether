@@ -1,0 +1,4 @@
+WIDTH = 200
+HEIGHT = 150
+
+GREEN = (0, 255, 0)
