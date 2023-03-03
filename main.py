@@ -1,16 +1,65 @@
-# This is a sample Python script.
+import pygame
+from classes.Player import *
+from constants import *
+from functions import *
+import os
+from typing import Tuple
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+
+def main():
+    pygame.init()
+    background = pygame.image.load(os.path.join('images', 'temp kitchen.png'))
+    background = pygame.transform.scale(background,
+                                        (WINDOW_WIDTH, WINDOW_HEIGHT))
+    clock = pygame.time.Clock()
+    pygame.init()
+    backgroundbox = screen.get_rect()
+
+    player = Player()  # spawn player
+    player.rect.x = 0  # go to x
+    player.rect.y = 0  # go to y
+    player_list = pygame.sprite.Group()
+    player_list.add(player)
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-    print("we are winners")
+    '''
+    Main Loop
+    '''
+    running = True
+    while running:
+        for event in pygame.event.get():
 
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
+            if event.type == pygame.QUIT:
+                running = False
+                pygame.quit()
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+            if event.type == pygame.KEYDOWN:
+                if event.key == ord('q'):
+                    pygame.quit()
+                if event.key == pygame.K_LEFT or event.key == ord('a'):
+                    player.control(-steps, 0)
+                elif event.key == pygame.K_RIGHT or event.key == ord('d'):
+                    player.control(steps, 0)
+                if event.key == pygame.K_UP or event.key == ord('w'):
+                    player.control(0, -steps)
+                elif event.key == pygame.K_UP or event.key == ord('s'):
+                    player.control(0, steps)
+
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_LEFT or event.key == ord('a'):
+                    player.control(steps, 0)
+                elif event.key == pygame.K_RIGHT or event.key == ord('d'):
+                    player.control(-steps, 0)
+                if event.key == pygame.K_UP or event.key == ord('w'):
+                    player.control(0, -steps)
+                elif event.key == pygame.K_UP or event.key == ord('s'):
+                    player.control(0, steps)
+
+        screen.blit(background, backgroundbox)
+        player.update()
+        player_list.draw(screen)
+        pygame.display.flip()
+        clock.tick(FPS)
+
+
+main()
