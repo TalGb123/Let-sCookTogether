@@ -15,16 +15,23 @@ def main():
     pygame.init()
     backgroundbox = screen.get_rect()
 
-    player = Player()  # spawn player
-    player.rect.x = 0  # go to x
-    player.rect.y = 0  # go to y
-    player_list = pygame.sprite.Group()
-    player_list.add(player)
+    player_wasd = Player()  # spawn player
+    player_arrows = Player() # spawn player
+    player_wasd.rect.x = 150  # go to x
+    player_wasd.rect.y = 220  # go to y
+    player_arrows.rect.x = WINDOW_WIDTH-350 # go to x
+    player_arrows.rect.y = 220  # go to y
+    player_list = pygame.sprite.Group() # player list creation
 
+    # adding players to the list
+    player_list.add(player_wasd)
+    player_list.add(player_arrows)
 
     '''
     Main Loop
     '''
+    # pressed_keys = pygame.key.get_pressed()
+
     running = True
     while running:
         for event in pygame.event.get():
@@ -34,29 +41,56 @@ def main():
                 pygame.quit()
 
             if event.type == pygame.KEYDOWN:
-                if event.key == ord('q'):
+                if event.key == ord('q') or event.key == pygame.K_ESCAPE:
                     pygame.quit()
                 if event.key == pygame.K_LEFT or event.key == ord('a'):
-                    player.control(-steps, 0)
-                elif event.key == pygame.K_RIGHT or event.key == ord('d'):
-                    player.control(steps, 0)
+                    if event.key == ord('a'):
+                        player_wasd.control(-steps, 0)
+                    else:
+                        player_arrows.control(-steps, 0)
+                if event.key == pygame.K_RIGHT or event.key == ord('d'):
+                    if event.key == ord('d'):
+                        player_wasd.control(steps, 0)
+                    else:
+                        player_arrows.control(steps, 0)
                 if event.key == pygame.K_UP or event.key == ord('w'):
-                    player.control(0, -steps)
-                elif event.key == pygame.K_UP or event.key == ord('s'):
-                    player.control(0, steps)
+                    if event.key == ord('w'):
+                        player_wasd.control(0, -steps)
+                    else:
+                        player_arrows.control(0, -steps)
+                if event.key == pygame.K_DOWN or event.key == ord('s'):
+                    if event.key == ord('s'):
+                        player_wasd.control(0, steps)
+                    else:
+                        player_arrows.control(0, steps)
 
             if event.type == pygame.KEYUP:
+                if event.key == ord('q') or event.key == pygame.K_ESCAPE:
+                    pygame.quit()
                 if event.key == pygame.K_LEFT or event.key == ord('a'):
-                    player.control(steps, 0)
-                elif event.key == pygame.K_RIGHT or event.key == ord('d'):
-                    player.control(-steps, 0)
+                    if event.key == ord('a'):
+                        player_wasd.control(-steps, 0)
+                    else:
+                        player_arrows.control(-steps, 0)
+                if event.key == pygame.K_RIGHT or event.key == ord('d'):
+                    if event.key == ord('d'):
+                        player_wasd.control(steps, 0)
+                    else:
+                        player_arrows.control(steps, 0)
                 if event.key == pygame.K_UP or event.key == ord('w'):
-                    player.control(0, -steps)
-                elif event.key == pygame.K_UP or event.key == ord('s'):
-                    player.control(0, steps)
+                    if event.key == ord('w'):
+                        player_wasd.control(0, -steps)
+                    else:
+                        player_arrows.control(0, -steps)
+                if event.key == pygame.K_DOWN or event.key == ord('s'):
+                    if event.key == ord('s'):
+                        player_wasd.control(0, steps)
+                    else:
+                        player_arrows.control(0, steps)
 
         screen.blit(background, backgroundbox)
-        player.update()
+        player_wasd.update()
+        player_arrows.update()
         player_list.draw(screen)
         pygame.display.flip()
         clock.tick(FPS)

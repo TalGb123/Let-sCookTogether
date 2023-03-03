@@ -10,7 +10,7 @@ class Player(pygame.sprite.Sprite):
         self.movey = 0
         self.frame = 0
         self.images = []
-        for i in range(1, 2):
+        for i in range(1, 3):
             img = pygame.image.load(os.path.join('images', 'hero' + str(i) + '.png')).convert()
             img.convert_alpha()  # optimise alpha
             img.set_colorkey(ALPHA)  # set alpha
@@ -29,9 +29,12 @@ class Player(pygame.sprite.Sprite):
         """
         Update sprite position
         """
-
-        self.rect.x = self.rect.x + self.movex
-        self.rect.y = self.rect.y + self.movey
+        if self.border_check():
+            self.rect.x = self.rect.x + self.movex
+            self.rect.y = self.rect.y + self.movey
+        # else:
+            # self.rect.x -= 5
+            # self.rect.y -= 5
 
         # # moving left
         # if self.movex < 0:
@@ -46,3 +49,8 @@ class Player(pygame.sprite.Sprite):
         #     if self.frame > 3*ani:
         #         self.frame = 0
         #     self.image = self.images[self.frame//ani]
+
+    def border_check(self):
+        if (self.rect.x+30 < 650 and self.rect.y+30 < 400) or (self.rect.x-30 > WINDOW_WIDTH-870 and self.rect.y-30 < WINDOW_HEIGHT-400):
+            return True
+        return False
